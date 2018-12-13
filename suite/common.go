@@ -136,11 +136,11 @@ func NewSuite(logger *log.Logger, wb *Workbench) *Suite {
 // ----------------------------------------------------------------------
 
 func (s *Suite) setPath(p string) {
-	if !strings.HasPrefix(s.Req.URL.Path, "/") {
+	if !strings.HasPrefix(p, "/") {
 		p = "/" + p
 	}
 
-	if !strings.HasSuffix(s.Req.URL.Path, "/") {
+	if !strings.HasSuffix(p, "/") {
 		p = p + "/"
 	}
 	s.Req.URL.Path = p
