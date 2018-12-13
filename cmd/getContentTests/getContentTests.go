@@ -11,7 +11,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/freetaxii/testlab/suite"
+	"github.com/bcmc/testlab/suite"	// TODO - switch back to freetaxii
 	"github.com/gologme/log"
 	"github.com/pborman/getopt"
 )
