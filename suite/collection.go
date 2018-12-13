@@ -90,8 +90,7 @@ func (s *Suite) testCollectionResponse(c *collections.Collection) {
 		s.Logger.Println("++ Calling Path:", s.Req.URL.Path)
 	}
 
-	media := s.TAXIIMediaType + s.TAXIIVersion
-	s.setAccept(media)
+	s.setCorrectAccept()
 
 	s.Req.SetBasicAuth(s.Username, s.Password)
 	resp, err := s.Client.Do(s.Req)

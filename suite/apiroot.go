@@ -37,8 +37,7 @@ func (s *Suite) getAPIRootOutput() {
 		s.Logger.Println("++ Calling Path:", s.Req.URL.Path)
 	}
 
-	media := s.TAXIIMediaType + s.TAXIIVersion
-	s.setAccept(media)
+	s.setCorrectAccept()
 
 	var o apiroot.APIRoot
 	s.Req.SetBasicAuth(s.Username, s.Password)

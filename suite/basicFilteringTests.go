@@ -224,8 +224,7 @@ func (s *Suite) testFilteringResponse(correctIndicators []indicator.Indicator) {
 	}
 
 	// Set HTTP Header information
-	media := s.STIXMediaType + s.STIXVersion
-	s.setAccept(media)
+	s.setCorrectAccept()
 	s.Req.SetBasicAuth(s.Username, s.Password)
 
 	// Make HTTP Request

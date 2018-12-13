@@ -38,8 +38,7 @@ func (s *Suite) getCollectionsOutput() {
 		s.Logger.Println("++ Calling Path:", s.Req.URL.Path)
 	}
 
-	media := s.TAXIIMediaType + s.TAXIIVersion
-	s.setAccept(media)
+	s.setCorrectAccept()
 
 	var o collections.Collections
 	s.Req.SetBasicAuth(s.Username, s.Password)

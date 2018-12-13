@@ -245,3 +245,13 @@ func (s *Suite) printTestSummary() {
 		s.Logger.Println("== FAILURE:", s.ProblemsFound, "problems found in this test\n")
 	}
 }
+
+func (s *Suite) setCorrectAccept() {
+	if s.EndpointType == "stix" {
+		media := s.STIXMediaType + s.STIXVersion + "," + s.TAXIIMediaType + s.TAXIIVersion
+		s.setAccept(media)
+	} else {
+		media := s.TAXIIMediaType + s.TAXIIVersion
+		s.setAccept(media)
+	}
+}

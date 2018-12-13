@@ -36,13 +36,8 @@ func (s *Suite) testBE01() {
 		s.Logger.Println("++ Calling Path:", s.Req.URL.Path)
 	}
 
-	if s.EndpointType == "stix" {
-		media := s.STIXMediaType + s.STIXVersion
-		s.setAccept(media)
-	} else {
-		media := s.TAXIIMediaType + s.TAXIIVersion
-		s.setAccept(media)
-	}
+	s.setCorrectAccept()
+
 	resp, err := s.Client.Do(s.Req)
 	s.handleError(err)
 	defer resp.Body.Close()
@@ -59,13 +54,7 @@ func (s *Suite) testBE02() {
 		s.Logger.Println("++ Calling Path:", s.Req.URL.Path)
 	}
 
-	if s.EndpointType == "stix" {
-		media := s.STIXMediaType + s.STIXVersion
-		s.setAccept(media)
-	} else {
-		media := s.TAXIIMediaType + s.TAXIIVersion
-		s.setAccept(media)
-	}
+	s.setCorrectAccept()
 
 	s.Req.SetBasicAuth(s.Username, "foo")
 	resp, err := s.Client.Do(s.Req)
@@ -84,13 +73,7 @@ func (s *Suite) testBE03() {
 		s.Logger.Println("++ Calling Path:", s.Req.URL.Path)
 	}
 
-	if s.EndpointType == "stix" {
-		media := s.STIXMediaType + s.STIXVersion
-		s.setAccept(media)
-	} else {
-		media := s.TAXIIMediaType + s.TAXIIVersion
-		s.setAccept(media)
-	}
+	s.setCorrectAccept()
 
 	s.Req.SetBasicAuth(s.Username, s.Password)
 	resp, err := s.Client.Do(s.Req)
@@ -109,13 +92,7 @@ func (s *Suite) testBE04() {
 		s.Logger.Println("++ Calling Path:", s.Req.URL.Path)
 	}
 
-	if s.EndpointType == "stix" {
-		media := s.STIXMediaType + s.STIXVersion
-		s.setAccept(media)
-	} else {
-		media := s.TAXIIMediaType + s.TAXIIVersion
-		s.setAccept(media)
-	}
+	s.setCorrectAccept()
 
 	// Save original path
 	orig := s.Req.URL.Path
@@ -145,6 +122,8 @@ func (s *Suite) testBE05() {
 	invalidAcceptHeaders := []string{"", "application/foo"}
 
 	for _, v := range invalidAcceptHeaders {
+		s.Logger.Println("++ Accept:", v)
+
 		s.setAccept(v)
 		s.Req.SetBasicAuth(s.Username, s.Password)
 
@@ -166,18 +145,25 @@ func (s *Suite) testBE06() {
 		s.Logger.Println("++ Calling Path:", s.Req.URL.Path)
 	}
 
-	var m1, m2 string
+	var validHeaders []string
 	if s.EndpointType == "stix" {
-		m1 = s.STIXMediaType
-		m2 = s.STIXMediaType + s.STIXVersion
+		validHeaders = []string{
+			s.STIXMediaType + "," + s.TAXIIMediaType,
+			s.STIXMediaType + s.STIXVersion + "," + s.TAXIIMediaType,
+			s.STIXMediaType + "," + s.TAXIIMediaType + s.TAXIIVersion,
+			s.STIXMediaType + s.STIXVersion + "," + s.TAXIIMediaType + s.TAXIIVersion,
+		}
 	} else {
-		m1 = s.TAXIIMediaType
-		m2 = s.TAXIIMediaType + s.TAXIIVersion
+		validHeaders = []string{
+			s.TAXIIMediaType,
+			s.TAXIIMediaType + s.TAXIIVersion,
+		}
 	}
 
-	validHeaders := []string{m1, m2}
 
 	for _, v := range validHeaders {
+		s.Logger.Println("++ Accept:", v)
+
 		s.setAccept(v)
 		s.Req.SetBasicAuth(s.Username, s.Password)
 
@@ -211,6 +197,8 @@ func (s *Suite) testBE07() {
 	validHeaders := []string{m1, m2}
 
 	for _, v := range validHeaders {
+		s.Logger.Println("++ Accept:", v)
+
 		s.setAccept(v)
 		s.Req.SetBasicAuth(s.Username, s.Password)
 

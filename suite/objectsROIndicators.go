@@ -59,8 +59,7 @@ func (s *Suite) testSortOrder01() {
 		s.Logger.Println("++ Calling Path:", s.Req.URL.Path)
 	}
 
-	media := s.STIXMediaType + s.STIXVersion
-	s.setAccept(media)
+	s.setCorrectAccept()
 
 	s.Req.SetBasicAuth(s.Username, s.Password)
 	resp, err := s.Client.Do(s.Req)
